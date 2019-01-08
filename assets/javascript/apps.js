@@ -1,59 +1,45 @@
-var shows = ["Spongebob", "Tom and Jerry", "Dexters Laboratory", "Looney Tunes", "Bobs Burgers", "Rugrats", "Rocko's Modern Life"];
+var shows = ["Ed Edd n Eddy", "Courage the Cowardly Dog", "Tom & Jerry", "Dexter's Laboratory", "Looney Tunes", "Family Guy", "Bob's Burgers", "The Simpsons", "Rocko's Modern Life"];
 
-
-function makeButtons(){ 
-	$('#buttonsView').empty();
-
-	for (var i = 0; i < shows.length; i++){
-		var a = $('<button>') 
-		a.addClass('show'); 
-		a.attr('data-name', shows[i]); 
-		a.text(shows[i]); 
+	function makeButtons(){ 
+		$('#buttonsView').empty();
+			for (var i = 0; i < shows.length; i++){
+			var a = $('<button>') 
+			a.addClass('show'); 
+			a.attr('data-name', shows[i]); 
+			a.text(shows[i]);
 		$('#buttonsView').append(a); 
 	}
 }
 
-
 $("#addShow").on("click", function(){
-
-
 	var show = $("#show-input").val().trim();
 	shows.push(show);
 	makeButtons();
 	return false; 
 })
 
-
 function displayGifs(){
 	var show = $(this).attr("data-name");
-	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + cartoon + "apAPT9Mvbi4McrpmPAV1z1ziyiz0sUcJ";
+	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + show + "&limit=9&api_key=dc6zaTOxFJmzC";
 
-	
 		$.ajax({url: queryURL, method: "GET"}).done(function (response) {
 			console.log(response.data);
-		
 			var results = response.data;
 			for (var i = 0; i < results.length; i++) {
-			
 				var gifDiv = $('<div class=gifs>');
 				var showGif = $('<img>');
 					showGif.attr('src', results[i].images.fixed_height_still.url);
-		
 					showGif.attr('title', "Rating: " + results[i].rating);
 					showGif.attr('data-still', results[i].images.fixed_height_still.url);
 					showGif.attr('data-state', 'still');
 					showGif.addClass('gif');
 					showGif.attr('data-animate', results[i].images.fixed_height.url);
-		
 				gifDiv.append(showGif)
-		
-
-				$("#gifsView").prepend(gifDiv);
-			}
+			$("#gifsView").prepend(gifDiv);
+		}
 			
-		});
+	});
 }
-
 
 $(document).on('click', '.gif', function(){
 	var state = $(this).attr('data-state');
@@ -63,13 +49,8 @@ $(document).on('click', '.gif', function(){
             }else{
                 $(this).attr('src', $(this).data('still'));
                 $(this).attr('data-state', 'still');
-            };
+	};
 });
 
-
-
-
 $(document).on("click", ".show", displayGifs);
-
-
 makeButtons();
