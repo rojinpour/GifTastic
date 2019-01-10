@@ -37,7 +37,6 @@ function displayGifs(){
 				gifDiv.append(showGif)
 			$("#gifsView").prepend(gifDiv);
 		}
-			
 	});
 }
 
